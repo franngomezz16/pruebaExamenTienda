@@ -18,6 +18,9 @@
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
+    <!-- icono -->
+    <script src="https://kit.fontawesome.com/c858fc57f5.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -44,6 +47,11 @@
                     <li class="nav-item">
                         <a href="<?= ROOT ?>shop/contact" class="nav-link <?= (isset($data['active']) && $data['active']=='contact') ? 'active' : '' ?>">Contacto</a>
                     </li>
+                    <?php if(isset($_SESSION['user']) && $_SESSION['cartTotal'] >= 0): ?>
+                        <li class="nav-item">
+                            <a href="<?= ROOT ?>wishList" class="nav-link <?= (isset($data['active']) && $data['active']=='wishList') ? 'active' : '' ?>">Lista de Deseos</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div class="d-flex justify-content-end">
