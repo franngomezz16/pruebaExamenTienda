@@ -13,7 +13,7 @@
                 <th>Borrar</th>
                 </thead>
                 <tbody>
-                <?php foreach ($data['users'] as $user): ?>
+                <?php foreach ($data['adminUsers'] as $user): ?>
                     <tr>
                         <td class="text-center"><?= $user->id ?></td>
                         <td class="text-center"><?= $user->name ?></td>
@@ -24,7 +24,7 @@
                             >Editar</a>
                         </td>
                         <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/delete/<?= $user->id ?>"
+                            <a href="<?= ROOT ?>adminUser/deleteAdmin/<?= $user->id ?>"
                                class="btn btn-danger"
                             >Borrar</a>
                         </td>
@@ -45,5 +45,41 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Usuarios NO administradores -->
+    <div class="card p-4 bg-light">
+        <div class="card-header">
+            <h1 class="text-center">Usuarios</h1>
+        </div>
+        <div class="card-body">
+            <table class="table text-center" width="100%">
+                <thead>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+
+                </thead>
+                <tbody>
+                <?php foreach ($data['users'] as $user): ?>
+                    <tr>
+                        <td class="text-center"><?= $user->id ?></td>
+                        <td class="text-center"><?= $user->first_name . ' ' . $user->last_name_1 ?></td>
+                        <td class="text-center"><?= $user->email ?></td>
+                        <td class="text-center">
+                            <a href="<?= ROOT ?>adminUser/details/<?= $user->id ?>"
+                               class="btn btn-info"
+                            >Ver Detalles</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="<?= ROOT ?>adminUser/deleteUser/<?= $user->id ?>"
+                               class="btn btn-danger"
+                            >Borrar</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 <?php include_once(VIEWS . 'footer.php')?>
