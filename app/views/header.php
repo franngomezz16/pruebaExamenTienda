@@ -89,6 +89,9 @@
                 <li class="nav-item">
                     <a href="<?= ROOT ?>adminProduct" class="nav-link">Productos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminSales" class="nav-link <?= (isset($data['active']) && $data['active']=='sales') ? 'active' : '' ?>">Ventas</a>
+                </li>
             </ul>
         <?php endif; ?>
     </div>
