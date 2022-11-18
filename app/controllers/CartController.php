@@ -103,13 +103,124 @@ class CartController extends Controller
 
     public function paymentmode()
     {
-        $data = [
-            'titulo' => 'Carrito | Forma de pago',
-            'subtitle' => 'Checkout | Forma de pago',
-            'menu' => true,
-        ];
+        $session = new Session();
 
-        $this->view('carts/paymentmode', $data);
+        if( ! $session->getLogin()){
+            header('LOCATION:' . ROOT);
+        }
+
+        $errors = [];
+        $user = $session->getUser();
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $firstName = $_POST['first_name'] ?? '';
+            $lastName1 = $_POST['last_name_1'] ?? '';
+            $lastName2 = $_POST['last_name_2'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $city = $_POST['city'] ?? '';
+            $state = $_POST['state'] ?? '';
+            $postcode = $_POST['postcode'] ?? '';
+            $country = $_POST['country'] ?? '';
+
+            if( ! ($user->first_name == $firstName)) {
+                if ($firstName == '') {
+                    array_push($errors, 'Hay que poner un Nombre Obligatorio');
+                } else {
+                    $user->first_name = $firstName;
+                }
+            }
+
+            if( ! ($user->last_name_1 == $lastName1)){
+                if($lastName1 == ''){
+                    array_push($errors , 'Hay que poner el Primer apellido Obligatorio');
+                }else {
+                    $user->last_name_1 = $lastName1;
+                }
+            }
+
+            if( ! ($user->last_name_2 == $lastName2)){
+                if($lastName2 == ''){
+                    array_push($errors , 'Hay que poner el Segundo apellido Obligatorio');
+                }else {
+                    $user->last_name_2 = $lastName2;
+                }
+            }
+
+            if( ! ($user->email == $email)){
+                if($email == ''){
+                    array_push($errors , 'Hay que poner el Email Obligatorio');
+                }else {
+                    $user->last_name_2 = $lastName2;
+                }
+            }
+
+            if( ! ($user->address == $address)){
+                if($address == ''){
+                    array_push($errors , 'Hay que poner la Direccion Obligatorio');
+                }else {
+                    $user->address = $address;
+                }
+            }
+
+            if( ! ($user->city == $city)){
+                if($city == ''){
+                    array_push($errors , 'Hay que poner la ciudad Obligatorio');
+                }else {
+                    $user->city = $city;
+                }
+            }
+
+            if( ! ($user->state == $state)){
+                if($state == ''){
+                    array_push($errors , 'Hay que poner la Probincia Obligatorio');
+                }else {
+                    $user->state = $state;
+                }
+            }
+
+            if( ! ($user->zipcode == $postcode)){
+                if($postcode == 0){
+                    array_push($errors , 'Hay que poner el Codigo Postal Obligatorio');
+                }else {
+                    $user->zipcode = $postcode;
+                }
+            }
+
+            if( ! ($user->country == $country)){
+                if($country == ''){
+                    array_push($errors , 'Hay que poner el Pasis Obligatorio');
+                }else {
+                    $user->country = $country;
+                }
+            }
+
+        }
+
+
+        if(count($errors) > 0 ){
+            $data = [
+                'titulo' => 'Carrito | Checkout',
+                'subtitle' => 'Checkout | Iniciar session',
+                'menu' => true,
+                'data' => $user,
+                'errors' => $errors,
+            ];
+            $this->view('carts/address' , $data);
+        }else{
+            $session->login($user);
+
+            $paymentMode = $this->model->paymentMode();//para ver los tipos de pago quee existen en la base de datos
+            $data = [
+                'titulo' => 'Carrito | Forma de Pago',
+                'subtitle' => 'Checkout | Forma de Pago',
+                'menu' => true,
+                'paymentMode' => $paymentMode,
+            ];
+
+            $this->view('carts/paymentmode' , $data);
+        }
     }
 
     public function verify()

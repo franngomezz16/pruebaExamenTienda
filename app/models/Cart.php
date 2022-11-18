@@ -45,6 +45,16 @@ class Cart
         return $query2->rowCount();
     }
 
+    public function paymentMode()
+    {
+        $sql = 'SELECT * FROM payment';
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+
+    }
+
     public function getCart($user_id)
     {
         $sql = 'SELECT c.user_id as user, c.product_id as product, c.quantity as quantity, 
